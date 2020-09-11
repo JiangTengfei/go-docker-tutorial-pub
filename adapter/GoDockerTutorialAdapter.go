@@ -24,7 +24,7 @@ func init() {
 }
 
 func SayHello(ctx context.Context, req *pb.HelloRequest) *pb.HelloReply {
-	rr, err := c.SayHello(ctx, &pb.HelloRequest{Name: "JTF"})
+	rr, err := c.SayHello(ctx, &pb.HelloRequest{Name: req.Name})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
