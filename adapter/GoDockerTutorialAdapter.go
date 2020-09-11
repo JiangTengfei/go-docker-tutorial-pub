@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	address = "localhost:9090"
+	address = "172.17.0.2:9090"
 )
 
 var (
