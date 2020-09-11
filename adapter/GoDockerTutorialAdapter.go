@@ -5,7 +5,6 @@ import (
 	pb "github.com/jiangtengfei/go-docker-tutorial-pub/grpc"
 	"google.golang.org/grpc"
 	"log"
-	"time"
 )
 
 const (
@@ -25,8 +24,6 @@ func init() {
 }
 
 func SayHello(ctx context.Context, req *pb.HelloRequest) *pb.HelloReply {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
 	rr, err := c.SayHello(ctx, &pb.HelloRequest{Name: "JTF"})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
