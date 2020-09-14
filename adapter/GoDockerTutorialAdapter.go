@@ -2,25 +2,50 @@ package GoDockerTutorialAdapter
 
 import (
 	"context"
+	"fmt"
 	pb "github.com/jiangtengfei/go-docker-tutorial-pub/grpc"
+	"go.etcd.io/etcd/clientv3"
 	"google.golang.org/grpc"
 	"log"
-)
-
-const (
-	address = "172.17.0.2:9090"
+	"time"
 )
 
 var (
-	c pb.GreeterClient
+	c          pb.GreeterClient
+	etcdClient *clientv3.Client
 )
 
 func init() {
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	etcdClient, _ = clientv3.New(clientv3.Config{
+		Endpoints:   []string{"127.0.0.1:2379"},
+		DialTimeout: 5 * time.Second,
+	})
+
+	ip, _ := getServiceIp()
+
+	conn, err := grpc.Dial(ip, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	c = pb.NewGreeterClient(conn)
+
+}
+
+func getServiceIp() (string, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+
+	resp, err := etcdClient.Get(ctx, "server_ip")
+	cancel()
+	if err != nil {
+		fmt.Errorf("error while put: %+v", err)
+		return "", err
+	}
+	log.Printf("resp: %+v", resp.Kvs)
+	if len(resp.Kvs) > 0 {
+		return string(resp.Kvs[0].Value), nil
+	}
+	return "", fmt.Errorf("etcd key: %s not found.", "server_ip")
 }
 
 func SayHello(ctx context.Context, req *pb.HelloRequest) *pb.HelloReply {
