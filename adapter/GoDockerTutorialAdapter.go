@@ -3,8 +3,8 @@ package GoDockerTutorialAdapter
 import (
 	"context"
 	"fmt"
+	"github.com/coreos/etcd/clientv3"
 	pb "github.com/jiangtengfei/go-docker-tutorial-pub/grpc"
-	"go.etcd.io/etcd/clientv3"
 	"google.golang.org/grpc"
 	"log"
 	"time"
