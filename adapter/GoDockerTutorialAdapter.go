@@ -45,7 +45,7 @@ func getServiceIp() (string, error) {
 	if len(resp.Kvs) > 0 {
 		return string(resp.Kvs[0].Value), nil
 	}
-	return "", fmt.Errorf("etcd key: %s not found.", "server_ip")
+	return "", fmt.Errorf("etcd key: %s not found", "server_ip")
 }
 
 func SayHello(ctx context.Context, req *pb.HelloRequest) *pb.HelloReply {
