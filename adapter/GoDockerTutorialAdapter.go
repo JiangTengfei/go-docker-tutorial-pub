@@ -17,7 +17,7 @@ var (
 
 func init() {
 	etcdClient, _ = clientv3.New(clientv3.Config{
-		Endpoints:   []string{"localhost:2379"},
+		Endpoints:   []string{"host.docker.internal:2379"},
 		DialTimeout: 5 * time.Second,
 	})
 
