@@ -17,7 +17,7 @@ var (
 
 func init() {
 	etcdClient, _ = clientv3.New(clientv3.Config{
-		Endpoints:   []string{"127.0.0.1:2379"},
+		Endpoints:   []string{"192.168.145.180:2379"},
 		DialTimeout: 5 * time.Second,
 	})
 
