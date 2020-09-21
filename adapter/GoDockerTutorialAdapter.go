@@ -13,6 +13,7 @@ import (
 var (
 	c          pb.GreeterClient
 	etcdClient *clientv3.Client
+	appId = "com.godockertutorial.tutorial.sayhello"
 )
 
 func init() {
@@ -35,7 +36,7 @@ func getServiceIp() (string, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 
-	resp, err := etcdClient.Get(ctx, "server_ip")
+	resp, err := etcdClient.Get(ctx, appId, clientv3.WithPrefix())
 	cancel()
 	if err != nil {
 		fmt.Errorf("error while put: %+v", err)
